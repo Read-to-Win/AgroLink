@@ -9,8 +9,6 @@ import Farmer from "./pages/Farmer";
 import Dashboard from "./pages/Dashboard";
 import AdminSignUp from "./pages/AdminSignUp";
 import Products from "./pages/Products";
-import CreateAd from "./pages/CreateAd";
-import Notifications from "./pages/Notifications";
 import MyMessages from "./pages/MyMessages";
 import LogIn from "./pages/LogIn";
 
