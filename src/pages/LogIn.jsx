@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { apiLogin } from "../service/auth";
+import { toast } from "react-toastify";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ const LogIn = () => {
       localStorage.setItem("accessToken", response.data.token);
 
       const userType = response.data.user.role;
-      if (userType === "vendor") {
+      if (userType === "admin") {
         // route to dashboard
         navigate("/dashboard");
       } else {
@@ -33,7 +35,7 @@ const LogIn = () => {
       toast.success("Logged in successfully.");
     } catch (error) {
       console.log(error);
-      toast.error("Oops! An error occured.");
+      toast.error(error?.response?.data?.message || "Login failed. Please check your credentials.");
     } finally {
       setIsSubmitting(false);
     }
@@ -42,8 +44,8 @@ const LogIn = () => {
   return (
     <div className="bg-[#112211] h-screen text-white p-10 flex items-center justify-center">
       <div className="w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-2">Create an account</h2>
-        <p className="mb-6">Already have an account? Sign Up</p>
+        <h2 className="text-3xl font-bold text-center  text-green-400 mb-2">Log into your account</h2>
+       <p className="mb-6 text-center text-gray-400"> Don't have an account? <Link to="/admin"><span className="text-[#14B714] hover:underline cursor-pointer">Sign Up</span></Link> </p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label className="block mb-1 text-sm">Username</label>
