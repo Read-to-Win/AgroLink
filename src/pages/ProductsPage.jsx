@@ -53,7 +53,9 @@ const ProductsPage = () => {
       <Navbar textColor="text-green-950" />
 
       <div className="pt-32 max-w-7xl mx-auto px-4 pb-16">
-        <h1 className="text-4xl font-bold mb-6 text-center text-green-950">Hire an Equipment</h1>
+        <h1 className="text-4xl font-bold mb-6 text-center text-green-950">
+          Hire an Equipment
+        </h1>
 
         <div className="max-w-md mx-auto mb-10 flex gap-2">
           <input
