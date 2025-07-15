@@ -14,6 +14,13 @@ import ProductDetails from "./pages/ProductDetails";
 import ProductsPage from "./pages/ProductsPage";
 import ViewDetail from "./pages/ViewDetails";
 import Farmer from "./pages/Farmer";
+import AdminSignUp from "./pages/AdminSignUp";
+import DashboardLayout from "./layouts/DashboardLayout";
+import Dashboard from "./pages/Dashboard";
+import Products from "./pages/Products";
+import CreateAd from "./pages/CreateAd";
+import Notifications from "./pages/Notifications";
+import MyMessages from "./pages/MyMessages";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +31,7 @@ function App() {
     {
       path:"/farmer",
       element: <Farmer/>
+      element: <AdminSignUp />,
     },
     {
       path: "/dashboard",
@@ -39,6 +47,15 @@ function App() {
         },
         {
           path: "create-add",
+        { index: true, element: <Dashboard /> },
+
+        {
+          path: "all-adverts",
+          element: <Products />,
+        },
+        {
+          path: "post-adverts",
+
           element: <CreateAd />,
         },
         {
@@ -81,6 +98,12 @@ function App() {
     },
   ]);
 
+          path: "messages",
+          element: <MyMessages />,
+        },
+      ],
+    },
+  ]);
   return <RouterProvider router={router} />;
 }
 
