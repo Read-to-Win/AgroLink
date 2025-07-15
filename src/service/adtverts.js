@@ -6,11 +6,11 @@ export const apiFetchAdverts = async () =>
 
 // get all advert for vendor
 export const apiGetAllAdvertVendor = async () =>
-  apiClient.get("/useAdvert/allAdvertsByVendor");
+  apiClient.get("/createProduct/adminGetAll");
 
 // add a new Advert
 export const apiCreateAdvert = async (payload) =>
-  apiClient.post("/useAdvert/vendorAddAdvert", payload, {
+  apiClient.post("/createProduct/adminCreate", payload, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

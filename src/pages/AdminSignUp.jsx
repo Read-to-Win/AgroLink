@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { apiSignUp } from "../service/auth";
 
 const AdminSignUp = () => {
   const navigate = useNavigate();
@@ -22,17 +23,18 @@ const AdminSignUp = () => {
       location: data.location,
       phoneNumber: data.phoneNumber,
       companyName: data.companyName,
-      role: "user",
+      region: data.region,
+      role:"admin",
     };
     setIsSubmitting(true);
     try {
       const response = await apiSignUp(payload);
       console.log(response);
       toast.success("User registered successfully.");
-      navigate("/login");
+      navigate("/log-in");
     } catch (error) {
       console.log(error);
-      toast.error("Oops! An error occured.");
+      toast.error(error?.response?.data?.message || "Oops! An error occurred.");
     } finally {
       setIsSubmitting(false);
     }
@@ -46,9 +48,11 @@ const AdminSignUp = () => {
         </h2>
         <p className="text-sm text-gray-400 text-center mb-6">
           Already have an account?{" "}
-          <span className="text-[#14B714] hover:underline cursor-pointer">
-            Log in
-          </span>
+          <Link to="/log-in">
+            <span className="text-[#14B714] hover:underline cursor-pointer">
+              Log in
+            </span>
+          </Link>
         </p>
 
         <form
@@ -61,12 +65,12 @@ const AdminSignUp = () => {
             <input
               type="text"
               placeholder="Jane Cue"
-              {...register("fullName", { required: "Name is required" })}
+              {...register("fullName", { required: "Fullname  is required" })}
               className="rounded-full border border-gray-600 bg-[#202820] focus:outline-none focus:ring-2 focus:ring-[#14B714] px-4 py-2 w-full"
             />
-            {errors?.name && (
+            {errors?.fullName && (
               <span className="text-red-500 text-sm mt-1 block">
-                {errors.name.message}
+                {errors.fullName.message}
               </span>
             )}
           </div>
@@ -122,9 +126,9 @@ const AdminSignUp = () => {
               {...register("location", { required: "Location is required" })}
               className="rounded-full border border-gray-600 bg-[#202820] focus:outline-none focus:ring-2 focus:ring-[#14B714] px-4 py-2 w-full"
             />
-            {errors?.address && (
+            {errors?.location && (
               <span className="text-red-500 text-sm mt-1 block">
-                {errors.address.message}
+                {errors.location.message}
               </span>
             )}
           </div>
@@ -134,12 +138,14 @@ const AdminSignUp = () => {
             <label className="block mb-1 text-sm">Phone</label>
             <input
               type="number"
-              {...register("phoneNumber", { required: "Phone number is required" })}
+              {...register("phoneNumber", {
+                required: "Phone number is required",
+              })}
               className="rounded-full border border-gray-600 bg-[#202820] focus:outline-none focus:ring-2 focus:ring-[#14B714] px-4 py-2 w-full"
             />
-            {errors?.phone && (
+            {errors?.phoneNumber && (
               <span className="text-red-500 text-sm mt-1 block">
-                {errors.phone.message}
+                {errors.phoneNumber.message}
               </span>
             )}
           </div>

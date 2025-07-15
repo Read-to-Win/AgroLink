@@ -16,7 +16,7 @@ const ProductsPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:8008/createProduct/getAllByUser");
+      const res = await axios.get("https://agriconnect-api-aa28.onrender.com/createProduct/getAllByUser");
       setProducts(res.data.items || []);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -30,7 +30,7 @@ const ProductsPage = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://localhost:8008/createProductsearchItemByUser?search=${search}`
+        `https://agriconnect-api-aa28.onrender.com/createProductsearchItemByUser?search=${encodeURIComponent(search)}`
       );
       setProducts(res.data.items || []);
     } catch (error) {

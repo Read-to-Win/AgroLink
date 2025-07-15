@@ -42,7 +42,7 @@ const Navbar = () => {
 
       <div className="flex items-center gap-4">
         <Link
-          to="/sign-in"
+          to="/log-in"
           className={`transition duration-200 border border-white/50 px-4 py-2 rounded-full text-sm md:text-base ${
             scrolled ? "text-green-800 hover:text-green-600" : "text-white hover:text-green-300"
           }`}
