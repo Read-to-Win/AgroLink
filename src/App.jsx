@@ -1,21 +1,22 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"; // use "react-router-dom" instead of "react-router"
 import "./App.css";
+
+// Pages & Layouts
 import Landing from "./pages/Landing";
 import FarmerHome from "./pages/farmer/FarmerHome";
 import DashboardLayout from "./layouts/DashboardLayout";
 import FarmerAds from "./pages/farmer/FarmerAds";
-import CreateAd from "./pages/farmer/CreateAd";
+import FarmerCreateAd from "./pages/farmer/CreateAd"; // renamed to avoid conflict
 import Join from "./pages/Join";
 import SignIn from "./pages/SignIn";
 import FarmerForm from "./pages/FarmerForm";
 import EditForm from "./pages/EditForm";
-import Notifications from "./pages/farmer/Notification";
+import FarmerNotifications from "./pages/farmer/Notification"; // renamed
 import ProductDetails from "./pages/ProductDetails";
 import ProductsPage from "./pages/ProductsPage";
 import ViewDetail from "./pages/ViewDetails";
 import Farmer from "./pages/Farmer";
 import AdminSignUp from "./pages/AdminSignUp";
-import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import CreateAd from "./pages/CreateAd";
@@ -29,9 +30,8 @@ function App() {
       element: <Landing />,
     },
     {
-      path:"/farmer",
-      element: <Farmer/>
-      element: <AdminSignUp />,
+      path: "/farmer",
+      element: <AdminSignUp />, // chose AdminSignUp over Farmer
     },
     {
       path: "/dashboard",
@@ -47,15 +47,14 @@ function App() {
         },
         {
           path: "create-add",
-        { index: true, element: <Dashboard /> },
-
+          element: <FarmerCreateAd />,
+        },
         {
           path: "all-adverts",
           element: <Products />,
         },
         {
           path: "post-adverts",
-
           element: <CreateAd />,
         },
         {
@@ -65,6 +64,10 @@ function App() {
         {
           path: "edit/:id",
           element: <EditForm />,
+        },
+        {
+          path: "messages",
+          element: <MyMessages />,
         },
       ],
     },
@@ -80,14 +83,14 @@ function App() {
       path: "/farmerform",
       element: <FarmerForm />,
     },
-
     {
       path: "/edit",
       element: <EditForm />,
     },
-
-    { path: "/product/:id", element: <ProductDetails /> },
-
+    {
+      path: "/product/:id",
+      element: <ProductDetails />,
+    },
     {
       path: "/products",
       element: <ProductsPage />,
@@ -98,12 +101,6 @@ function App() {
     },
   ]);
 
-          path: "messages",
-          element: <MyMessages />,
-        },
-      ],
-    },
-  ]);
   return <RouterProvider router={router} />;
 }
 
