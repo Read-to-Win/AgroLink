@@ -16,7 +16,7 @@ const ProductsPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:8008/createProduct/getAllByUser");
+      const res = await axios.get("https://agriconnect-api-aa28.onrender.com/createProduct/getAllByUser");
       setProducts(res.data.items || []);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -30,7 +30,7 @@ const ProductsPage = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://localhost:8008/createProductsearchItemByUser?search=${search}`
+        `https://agriconnect-api-aa28.onrender.com/createProductsearchItemByUser?search=${encodeURIComponent(search)}`
       );
       setProducts(res.data.items || []);
     } catch (error) {
@@ -53,7 +53,9 @@ const ProductsPage = () => {
       <Navbar textColor="text-green-950" />
 
       <div className="pt-32 max-w-7xl mx-auto px-4 pb-16">
-        <h1 className="text-4xl font-bold mb-6 text-center text-green-950">Hire an Equipment</h1>
+        <h1 className="text-4xl font-bold mb-6 text-center text-green-950">
+          Hire an Equipment
+        </h1>
 
         <div className="max-w-md mx-auto mb-10 flex gap-2">
           <input
