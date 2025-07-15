@@ -1,19 +1,18 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"; 
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import Landing from "./pages/Landing";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Join from "./pages/Join";
-import SignIn from "./pages/LogIn";
 import ProductDetails from "./pages/ProductDetails";
 import ProductsPage from "./pages/ProductsPage";
 import Farmer from "./pages/Farmer";
 import Dashboard from "./pages/Dashboard";
-import DashboardLayout from "./layouts/DashboardLayout";
 import AdminSignUp from "./pages/AdminSignUp";
 import Products from "./pages/Products";
 import CreateAd from "./pages/CreateAd";
 import Notifications from "./pages/Notifications";
 import MyMessages from "./pages/MyMessages";
+import LogIn from "./pages/LogIn";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,8 +23,10 @@ function App() {
     {
       path: "/farmer",
       element: <Farmer />,
+    },
+      {
       path: "/admin",
-      element: <AdminSignUp />, 
+      element: <AdminSignUp />,
     },
     {
       path: "/dashboard",
@@ -48,7 +49,7 @@ function App() {
           path: "notifications",
           element: <Notifications />,
         },
-        
+
         {
           path: "messages",
           element: <MyMessages />,
@@ -58,6 +59,10 @@ function App() {
     {
       path: "/join",
       element: <Join />,
+    },
+    {
+      path: "/log-in",
+      element: <LogIn/>
     },
 
     { path: "/product/:id", element: <ProductDetails /> },
