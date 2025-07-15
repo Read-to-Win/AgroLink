@@ -11,8 +11,8 @@ const ProductDetailsPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:8008/createProduct/getOne/${id}`);
-        setProduct(res.data.item); 
+        const res = await axios.get(`https://agriconnect-api-aa28.onrender.com/createProduct/getOne/${id}`);
+        setProduct(res.data.item);
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
@@ -26,7 +26,7 @@ const ProductDetailsPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navbar />
+        <Navbar textColor="text-green-950" />
         <div className="pt-32 text-center text-lg font-medium text-gray-600">
           Loading details...
         </div>
@@ -37,7 +37,7 @@ const ProductDetailsPage = () => {
   if (!product) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navbar />
+        <Navbar textColor="text-green-950" />
         <div className="pt-32 text-center text-red-500 font-medium">
           Product not found.
         </div>
@@ -47,7 +47,7 @@ const ProductDetailsPage = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen text-gray-800">
-      <Navbar />
+      <Navbar textColor="text-green-950" />
 
       <div className="max-w-5xl mx-auto pt-32 px-6 pb-16 grid md:grid-cols-2 gap-12">
         <img
@@ -57,7 +57,7 @@ const ProductDetailsPage = () => {
         />
 
         <div className="space-y-6">
-          <h1 className="text-3xl font-bold">{product.title}</h1>
+          <h1 className="text-3xl font-bold text-green-950">{product.title}</h1>
           <p className="text-xl text-green-700 font-semibold">
             GH₵ {product.price}
           </p>
