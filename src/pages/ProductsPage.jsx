@@ -120,7 +120,7 @@ const ProductsPage = () => {
           </div>
         )}
       </div>
-
+<div>
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
@@ -153,7 +153,7 @@ const ProductsPage = () => {
           </div>
         </div>
       )}
-
+</div>
       <footer className="bg-green-950 text-white py-6 text-center text-sm">
         &copy; {new Date().getFullYear()} AgriTech. All rights reserved.
       </footer>
