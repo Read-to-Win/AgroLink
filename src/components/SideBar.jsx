@@ -5,6 +5,7 @@ import { NavLink } from "react-router";
 import { FiChevronDown, FiLogOut, FiMenu } from "react-icons/fi";
 import { useState } from "react";
 import { Tooltip } from "react-tooltip";
+import { FaRegArrowAltCircleRight } from "react-icons/fa";
 
 const SideBar = ({ isOpen, setIsOpen }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -30,7 +31,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
         onClick={() => setShowSidebar(!showSidebar)}
         className="fixed top-5 left-5 z-50 bg-[#1a2a1a] text-white p-2 rounded-full shadow-md md:hidden"
       >
-        <FiMenu size={24} />
+       <FaRegArrowAltCircleRight size={24} />
       </button>
 
       {/* Sidebar */}
@@ -53,7 +54,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                 onClick={toggleSidebar}
                 className="hidden md:block text-gray-400 hover:text-white transition"
               >
-                <FiMenu />
+                <FaRegArrowAltCircleRight />
               </button>
             </div>
 
