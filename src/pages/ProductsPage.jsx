@@ -16,8 +16,10 @@ const ProductsPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("https://agriconnect-api-aa28.onrender.com/createProduct/getAllByUser");
-      setProducts(res.data.items || []);
+      const res = await axios.get(
+        "https://agriconnect-api-aa28.onrender.com/createProduct/getAllByUser"
+      );
+      setProducts(res.data.item || []);
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
@@ -30,9 +32,11 @@ const ProductsPage = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `https://agriconnect-api-aa28.onrender.com/createProductsearchItemByUser?search=${encodeURIComponent(search)}`
+        `https://agriconnect-api-aa28.onrender.com/createProductsearchItemByUser?search=${encodeURIComponent(
+          search
+        )}`
       );
-      setProducts(res.data.items || []);
+      setProducts(res.data.item || []);
     } catch (error) {
       console.error("Error searching products:", error);
     } finally {
@@ -86,12 +90,12 @@ const ProductsPage = () => {
               >
                 <img
                   src={item.image?.url || "https://via.placeholder.com/300"}
-                  alt={item.title}
+                  alt={item.name}
                   className="w-full h-64 object-cover"
                 />
                 <div className="p-4 flex flex-col justify-between h-52">
                   <h3 className="text-lg font-semibold truncate mb-1 text-green-950">
-                    {item.title}
+                    {item.name}
                   </h3>
                   <p className="text-green-700 font-bold text-xl mb-1">
                     GH₵ {item.price}
@@ -120,17 +124,21 @@ const ProductsPage = () => {
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-            <h2 className="text-xl font-bold text-green-950 mb-3">Please Sign In or Join</h2>
-            <p className="text-gray-600 mb-6">You need to sign in or create an account to rent equipment.</p>
+            <h2 className="text-xl font-bold text-green-950 mb-3">
+              Please Sign In or Join
+            </h2>
+            <p className="text-gray-600 mb-6">
+              You need to sign in or create an account to rent equipment.
+            </p>
             <div className="flex justify-center gap-4">
               <button
-                onClick={() => navigate("/sign-in")}
+                onClick={() => navigate("/LogIn")}
                 className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
               >
                 Sign In
               </button>
               <button
-                onClick={() => navigate("/join")}
+                onClick={() => navigate("/Join")}
                 className="border border-green-600 text-green-700 px-4 py-2 rounded-md hover:bg-green-50"
               >
                 Join
