@@ -1,40 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { apiCreateAdvert } from "../service/adtverts";
+import { useNavigate, useParams } from "react-router";
+import { apiEditAdvert, apiGetSingleVendorAdvert } from "../service/adtverts";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
-import { useState } from "react";
 
-const CreateAd = () => {
+const Edit = () => {
+  const [product, setProduct] = useState({});
+  const params = useParams();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    values: {
+      name: product?.name,
+      category: product?.category,
+      price: product?.price,
+      description: product?.description,
+    },
+  });
+
+  const getSingleAdvert = async () => {
+    try {
+      const res = await apiGetSingleVendorAdvert(params.id);
+
+      setProduct(res.data.item);
+    } catch (error) {}
+  };
 
   const onSubmit = async (data) => {
-    console.log(data);
-    const payload = new FormData();
-    payload.append("name", data.name);
-    payload.append("category", data.category);
-    payload.append("price", data.price);
-    payload.append("description", data.description);
-    payload.append("file", data.file[0]);
     setIsSubmitting(true);
+    console.log(data);
     try {
-      const response = await apiCreateAdvert(payload);
+      const response = await apiEditAdvert(params.id, data);
       console.log(response.data);
-      toast.success("Product added successfully");
+      toast.success(response.data.message);
       navigate("/dashboard/all-adverts");
     } catch (error) {
-      console.log(error);
+      toast.error("Oops! An error occured");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  useEffect(() => {
+    getSingleAdvert();
+  }, []);
   return (
     <div className="h-screen flex items-center justify-center bg-[#F0FDF4]">
       <form
@@ -42,7 +56,7 @@ const CreateAd = () => {
         className="bg-[#1a2a1a] p-10 rounded-2xl shadow-2xl text-white w-full max-w-3xl h-[90vh] space-y-4"
       >
         <h2 className="text-4xl font-bold text-center text-green-400">
-          Create New Ad
+          Edit Ad
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -57,10 +71,8 @@ const CreateAd = () => {
               {...register("name", { required: "Title is required" })}
               className="bg-[#223322] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-white placeholder-gray-400 transition"
             />
-            {errors.title && (
-              <p className="text-red-400 text-sm mt-1">
-                {errors.title.message}
-              </p>
+            {errors.name && (
+              <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
             )}
           </div>
 
@@ -89,8 +101,9 @@ const CreateAd = () => {
             <select
               {...register("category", { required: "Category is required" })}
               className="bg-[#223322] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-white transition"
+              value={product.category}
             >
-              <option value="">Select a category</option>
+              <option>{product.category}</option>
               <option value="caterpillar">Caterpillar</option>
               <option value="tractor">Tractor</option>
               <option value="planter">Mechanical Planter</option>
@@ -152,12 +165,18 @@ const CreateAd = () => {
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
             } bg-green-600 hover:bg-green-700 text-white px-6 py-3 text-sm font-semibold rounded-xl transition duration-300`}
           >
-            {isSubmitting ? "Posting..." : "Post Ad"}
+            {isSubmitting ? "Submitting..." : "Submit Changes"}
           </button>
         </div>
       </form>
+      <div className="">
+        <img
+          className="object-contain max-w-[600px]"
+          src={product?.file?.url}
+        />
+      </div>
     </div>
   );
 };
 
-export default CreateAd;
+export default Edit;

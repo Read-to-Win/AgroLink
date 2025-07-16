@@ -25,26 +25,40 @@ const Navbar = () => {
         <img src={logo} alt="Logo" className="h-30" />
       </Link>
 
-      <ul className={`flex items-center gap-8 md:gap-10 font-normal text-white text-base md:text-lg drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)] ${
-            scrolled ? "text-green-800 hover:text-green-600" : "text-white hover:text-green-300"
-          }`}>
-        <li className={`hover:text-green-300 transition duration-200 ${
-            scrolled ? "text-green-800 hover:text-green-600" : "text-white hover:text-green-300"
-          }`}>
+      <ul
+        className={`flex items-center gap-8 md:gap-10 font-normal text-white text-base md:text-lg drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)] ${
+          scrolled
+            ? "text-green-800 hover:text-green-600"
+            : "text-white hover:text-green-300"
+        }`}
+      >
+        <li
+          className={`hover:text-green-300 transition duration-200 ${
+            scrolled
+              ? "text-green-800 hover:text-green-600"
+              : "text-white hover:text-green-300"
+          }`}
+        >
           <Link to="/products">Hire Tools</Link>
         </li>
-        <li className={`hover:text-green-300 transition duration-200 ${
-            scrolled ? "text-green-800 hover:text-green-600" : "text-white hover:text-green-300"
-          }`}>
-          <Link to="/farmer">Rent Out</Link>
+        <li
+          className={`hover:text-green-300 transition duration-200 ${
+            scrolled
+              ? "text-green-800 hover:text-green-600"
+              : "text-white hover:text-green-300"
+          }`}
+        >
+          <Link to="/admin">Rent Out</Link>
         </li>
       </ul>
 
       <div className="flex items-center gap-4">
         <Link
           to="/log-in"
-          className={`transition duration-200 border border-white/50 px-4 py-2 rounded-full text-sm md:text-base ${
-            scrolled ? "text-green-800 hover:text-green-600" : "text-white hover:text-green-300"
+          className={`transition duration-200 border border-white/50 px-4 py-2 rounded-full font-semibold text-sm md:text-base ${
+            scrolled
+              ? "text-green-800 hover:text-green-600"
+              : "text-white hover:text-green-300"
           }`}
         >
           Log in
