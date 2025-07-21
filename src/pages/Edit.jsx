@@ -60,7 +60,6 @@ const Edit = () => {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Title */}
           <div>
             <label className="block mb-2 text-sm font-semibold text-gray-200">
               Name
@@ -75,49 +74,35 @@ const Edit = () => {
               <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
             )}
           </div>
-
-          {/* File */}
           <div>
             <label className="block mb-2 text-sm font-semibold text-gray-200">
               Upload Image
             </label>
             <input
               type="file"
-              {...register("file", {
-                required: "Image file is required",
-              })}
+            //   {...register("file", {
+            //     required: "Image file is required",
+            //   })}
               className="bg-[#223322] border border-gray-600 file:bg-green-700 file:text-white file:border-none file:px-4 file:py-2 file:rounded-lg px-5 py-3 w-full rounded-xl text-white transition"
             />
             {errors.file && (
               <p className="text-red-400 text-sm mt-1">{errors.file.message}</p>
             )}
           </div>
-
-          {/* Category */}
           <div>
             <label className="block mb-2 text-sm font-semibold text-gray-200">
               Category
             </label>
-            <select
-              {...register("category", { required: "Category is required" })}
-              className="bg-[#223322] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-white transition"
-              value={product.category}
-            >
-              <option>{product.category}</option>
-              <option value="caterpillar">Caterpillar</option>
-              <option value="tractor">Tractor</option>
-              <option value="planter">Mechanical Planter</option>
-              <option value="leveller">Land Leveller</option>
-              <option value="harvester">Harvester</option>
-            </select>
+           <input
+              type="text"
+              placeholder="e.g. MTZ Tractor 90hp"
+              {...register("category", { required: "Title is required" })}
+              className="bg-[#223322] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-white placeholder-gray-400 transition"
+            />
             {errors.category && (
-              <p className="text-red-400 text-sm mt-1">
-                {errors.category.message}
-              </p>
+              <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
             )}
           </div>
-
-          {/* Price */}
           <div>
             <label className="block mb-2 text-sm font-semibold text-gray-200">
               Price
@@ -135,8 +120,6 @@ const Edit = () => {
             )}
           </div>
         </div>
-
-        {/* Description */}
         <div>
           <label className="block mb-2 text-sm font-semibold text-gray-200">
             Description
@@ -155,15 +138,13 @@ const Edit = () => {
             </p>
           )}
         </div>
-
-        {/* Submit Button */}
         <div className="flex justify-end">
           <button
             type="submit"
             disabled={isSubmitting}
             className={`${
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-            } bg-green-600 hover:bg-green-700 text-white px-6 py-3 text-sm font-semibold rounded-xl transition duration-300`}
+            } bg-green-600 hover:bg-green-700 text-white mt-8 px-6 py-3 text-sm font-semibold rounded-xl transition duration-300`}
           >
             {isSubmitting ? "Submitting..." : "Submit Changes"}
           </button>

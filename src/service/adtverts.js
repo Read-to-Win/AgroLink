@@ -38,3 +38,13 @@ export const apiSearchAdvert = async (search) =>
 // get to search for admin
 export const apiSearchAdminAdvert = async (search) =>
   apiClient.delete(`/useAdvert/userSearchItem/${search}`);
+// get notification for admin
+export const apiGetNotifications = async () =>
+  apiClient.get("/bookEquip/getBookingsForVendor");
+// patch to update notification status
+export const apiUpdateNotificationStatus = async (id,status) =>
+   apiClient.patch(`/bookEquip/updateBookingStatus/${id}/status`, { status });
+// get search for vendor
+export const apiGetSearchVendor = async (query) =>
+  apiClient.get(`/createProduct/searchItemByVendor?query=${query}`);
+

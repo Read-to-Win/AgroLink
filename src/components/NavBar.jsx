@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-
+  const [isOpen, setIsOpen] = useState();
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -41,14 +41,16 @@ const Navbar = () => {
         >
           <Link to="/products">Hire Tools</Link>
         </li>
+
+        {/* Trigger modal instead of navigation */}
         <li
-          className={`hover:text-green-300 transition duration-200 ${
+          className={`cursor-pointer hover:text-green-300 transition duration-200 ${
             scrolled
               ? "text-green-800 hover:text-green-600"
               : "text-white hover:text-green-300"
           }`}
         >
-          <Link to="/admin">Rent Out</Link>
+          <Link to="/admin"> Rent Out</Link>
         </li>
       </ul>
 
@@ -63,11 +65,11 @@ const Navbar = () => {
         >
           Log in
         </Link>
-        <Link to="/join">
-          <button className="bg-gray-100/90 text-green-950 font-semibold text-sm md:text-base px-5 py-2 rounded-full hover:bg-white transition duration-300">
-            Sign up
-          </button>
-        </Link>
+
+        {/* Sign Up triggers modal instead of navigation */}
+        <button className="bg-gray-100/90 text-green-950  cursor-pointer font-semibold text-sm md:text-base px-5 py-2 rounded-full hover:bg-white transition duration-300">
+          <Link to="/join"> Sign up</Link>
+        </button>
       </div>
     </nav>
   );
