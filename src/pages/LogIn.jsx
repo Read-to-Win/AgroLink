@@ -35,41 +35,48 @@ const LogIn = () => {
       toast.success("Logged in successfully.");
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.message || "Login failed. Please check your credentials.");
+      toast.error(
+        error?.response?.data?.message ||
+          "Login failed. Please check your credentials."
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
   const isError = Object.keys(errors).length > 0;
   return (
-    <div className="bg-[#112211] h-screen text-white p-10 flex items-center justify-center">
-      <div className="w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center  text-green-400 mb-2">Log into your account</h2>
-       <p className="mb-6 text-center text-gray-400"> Don't have an account? <Link to="/admin"><span className="text-[#14B714] hover:underline cursor-pointer">Sign Up</span></Link> </p>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label className="block mb-1 text-sm">Username</label>
-            <input
-              type="text"
-              {...register("username", { required: "Username is required" })}
-              className="rounded-full border px-3 py-2 w-full cursor-pointer"
-            />
-            {errors?.username && (
-              <span className="text-red-500">{errors?.username?.message}</span>
-            )}
-          </div>
-          <div className="mb-4">
+    <div className="bg-[#214538] min-h-screen text-white flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md bg-[#1a2a1a]/90 border border-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
+        <h2 className="text-3xl font-bold text-center text-green-400 mb-2">
+          Log into your account
+        </h2>
+        <p className="mb-6 text-center text-gray-400">
+          Don’t have an account?{" "}
+          <Link to="/admin">
+            <span className="text-[#14B714] hover:underline cursor-pointer">
+              Sign Up
+            </span>
+          </Link>
+        </p>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Email */}
+          <div>
             <label className="block mb-1 text-sm">Email</label>
             <input
               type="email"
               {...register("email", { required: "Email is required" })}
-              className="rounded-full border px-3 py-2 w-full cursor-pointer"
+              className="rounded-xl border border-gray-600 bg-[#202820] text-white px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#14B714]"
             />
-            {errors?.email && (
-              <span className="text-red-500">{errors?.email?.message}</span>
+            {errors.email && (
+              <span className="text-red-500 text-sm mt-1 block">
+                {errors.email.message}
+              </span>
             )}
           </div>
-          <div className="mb-4">
+
+          {/* Password */}
+          <div>
             <label className="block mb-1 text-sm">Password</label>
             <input
               type="password"
@@ -80,14 +87,21 @@ const LogIn = () => {
                   message: "Password must be at least 8 characters",
                 },
               })}
-              className="rounded-full border px-3 py-2 w-full cursor-pointer"
+              className="rounded-xl border border-gray-600 bg-[#202820] text-white px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#14B714]"
             />
-            {errors?.password && (
-              <span className="text-red-500">{errors.password.message}</span>
+            {errors.password && (
+              <span className="text-red-500 text-sm mt-1 block">
+                {errors.password.message}
+              </span>
             )}
           </div>
-          <button className="border mt-8 w-full px-3 py-2 rounded-full bg-[#14B714]">
-            {isSubmitting ? "Submitting..." : " Submit"}
+
+          {/* Submit Button */}
+          <button
+            disabled={isSubmitting}
+            className="w-full mt-4 px-4 py-2 rounded-full bg-[#14B714] hover:bg-[#119911] transition font-semibold disabled:opacity-50"
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>
