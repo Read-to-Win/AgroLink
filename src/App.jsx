@@ -11,8 +11,7 @@ import AdminSignUp from "./pages/AdminSignUp";
 import Products from "./pages/Products";
 import MyMessages from "./pages/MyMessages";
 import LogIn from "./pages/LogIn";
-import CreateAd from  "./pages/CreateAd";
-import Notifications from "./pages/Notifications";
+import Edit from "./pages/Edit";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,7 +23,7 @@ function App() {
       path: "/farmer",
       element: <Farmer />,
     },
-      {
+    {
       path: "/admin",
       element: <AdminSignUp />,
     },
@@ -54,6 +53,10 @@ function App() {
           path: "messages",
           element: <MyMessages />,
         },
+        {
+          path: "edit/:id",
+          element: <Edit />,
+        },
       ],
     },
     {
@@ -62,7 +65,7 @@ function App() {
     },
     {
       path: "/log-in",
-      element: <LogIn/>
+      element: <LogIn />,
     },
 
     { path: "/product/:id", element: <ProductDetails /> },
@@ -70,6 +73,10 @@ function App() {
     {
       path: "/products",
       element: <ProductsPage />,
+    },
+    {
+      path: "/edit",
+      element: <Edit />,
     },
   ]);
   return <RouterProvider router={router} />;
