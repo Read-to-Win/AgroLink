@@ -12,6 +12,7 @@ import Products from "./pages/Products";
 import MyMessages from "./pages/MyMessages";
 import LogIn from "./pages/LogIn";
 import CreateAd from "./pages/CreateAd";
+import Notifications from "./pages/Notifications";
 
 function App() {
   const router = createBrowserRouter([
