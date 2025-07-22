@@ -42,7 +42,7 @@ const Navbar = () => {
           <Link to="/products">Hire Tools</Link>
         </li>
 
-        {/* Trigger modal instead of navigation */}
+      
         <li
           className={`cursor-pointer hover:text-green-300 transition duration-200 ${
             scrolled
