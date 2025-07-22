@@ -11,6 +11,7 @@ import AdminSignUp from "./pages/AdminSignUp";
 import Products from "./pages/Products";
 import MyMessages from "./pages/MyMessages";
 import LogIn from "./pages/LogIn";
+import CreateAd from "./pages/CreateAd";
 
 function App() {
   const router = createBrowserRouter([
@@ -41,7 +42,7 @@ function App() {
         },
         {
           path: "post-adverts",
-          element: <CreateAd />,
+          element: <CreateAd/>,
         },
         {
           path: "notifications",
