@@ -34,7 +34,9 @@ export default function BookingModal({ ad, isOpen, onClose }) {
       onClose();
       setDate("");
     } catch (err) {
-      setError(err.response?.data?.message || "Booking failed. Please try again.");
+      setError(
+        err.response?.data?.message || "Booking failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -45,7 +47,9 @@ export default function BookingModal({ ad, isOpen, onClose }) {
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-60 z-50 px-4">
       <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative animate-fadeIn">
-        <h2 className="text-xl font-semibold mb-4 text-green-800">Book Equipment</h2>
+        <h2 className="text-xl font-semibold mb-4 text-green-800">
+          Book Equipment
+        </h2>
 
         <p className="mb-4 text-gray-800">
           Booking for: <strong>{ad.name}</strong>

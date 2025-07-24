@@ -1,15 +1,20 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ImProfile } from "react-icons/im";
 import K from "../constants";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { FiChevronDown, FiLogOut, FiMenu } from "react-icons/fi";
 import { useState } from "react";
 import { Tooltip } from "react-tooltip";
+import { FaRegArrowAltCircleRight } from "react-icons/fa";
 
 const SideBar = ({ isOpen, setIsOpen }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [showSidebar, setShowSidebar] = useState(true); // controls mobile visibility only
-
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/");
+  };
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleDropdown = (index) =>
     setActiveDropdown((prev) => (prev === index ? null : index));
@@ -25,13 +30,21 @@ const SideBar = ({ isOpen, setIsOpen }) => {
   };
   return (
     <>
-      {/* Toggle Button */}
+      {/* Mobile Toggle Button */}
       <button
         onClick={() => setShowSidebar(!showSidebar)}
         className="fixed top-5 left-5 z-50 bg-[#1a2a1a] text-white p-2 rounded-full shadow-md md:hidden"
       >
-        <FiMenu size={24} />
+        <FaRegArrowAltCircleRight size={24} />
       </button>
+
+      {/* Optional overlay for mobile */}
+      {showSidebar && (
+        <div
+          onClick={() => setShowSidebar(false)}
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+        />
+      )}
 
       {/* Sidebar */}
       <AnimatePresence>
@@ -41,7 +54,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
             variants={sidebarVariants}
             initial={false}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 h-screen bg-[#112211] text-white shadow-lg z-40 p-4 pt-16 md:pt-14 md:block"
+            className="fixed top-0 left-0 h-screen bg-[#112211] text-white shadow-lg z-40 p-4 pt-16 md:pt-14 flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-10 px-2">
@@ -53,12 +66,12 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                 onClick={toggleSidebar}
                 className="hidden md:block text-gray-400 hover:text-white transition"
               >
-                <FiMenu />
+                <FaRegArrowAltCircleRight />
               </button>
             </div>
 
-            {/* Nav Links */}
-            <nav className="flex flex-col gap-3 text-sm">
+            {/* Navigation */}
+            <nav className="flex flex-col gap-3 text-sm flex-grow">
               {K.NAVLINKS.map(({ icon, text, path, children }, index) => (
                 <div key={text}>
                   {children ? (
@@ -100,6 +113,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                   ) : (
                     <NavLink
                       to={path}
+                      end
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-2 rounded-md transition ${
                           isActive
@@ -114,7 +128,8 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                       {isOpen && <span>{text}</span>}
                     </NavLink>
                   )}
-                  {/* Tooltip fallback */}
+
+                  {/* Tooltip fallback for collapsed */}
                   {!isOpen && (
                     <Tooltip id={`tt-${text}`} place="right" effect="solid" />
                   )}
@@ -123,8 +138,11 @@ const SideBar = ({ isOpen, setIsOpen }) => {
             </nav>
 
             {/* Logout */}
-            <div className="mt-auto px-2 pt-10">
-              <button className="flex items-center gap-3 text-red-400 hover:text-red-600">
+            <div className="mt-10 px-2">
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 text-red-400 hover:text-red-600"
+              >
                 <FiLogOut className="text-xl" />
                 {isOpen && <span>Log Out</span>}
               </button>

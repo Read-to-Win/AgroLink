@@ -8,20 +8,26 @@ import { useState } from "react";
 const CreateAd = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const onSubmit = async (data) => {
     console.log(data);
     const payload = new FormData();
-    payload.append("title", data.title);
+    payload.append("name", data.name);
     payload.append("category", data.category);
     payload.append("price", data.price);
+    payload.append("description", data.description);
     payload.append("file", data.file[0]);
     setIsSubmitting(true);
     try {
       const response = await apiCreateAdvert(payload);
       console.log(response.data);
       toast.success("Product added successfully");
-      navigate("/dashboard/adverts");
+      navigate("/dashboard/all-adverts");
     } catch (error) {
       console.log(error);
     } finally {
@@ -30,13 +36,16 @@ const CreateAd = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-[#1c2b1c] p-4">
-      <form className="bg-[#1a2a1a] p-10 rounded-2xl shadow-2xl text-white w-full max-w-3xl h-[90vh] overflow-y-auto space-y-10">
-        <h2 className="text-4xl font-bold text-center text-green-400">
+    <div className="min-h-screen bg-[#F0FDF4] py-10 px-4 flex justify-center items-start">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-[#214538] p-6 sm:p-10 rounded-2xl shadow-2xl text-white w-full max-w-4xl space-y-6"
+      >
+        <h2 className="text-2xl sm:text-4xl font-bold text-center text-green-400">
           Create New Ad
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Name */}
           <div>
             <label className="block mb-2 text-sm font-semibold text-gray-200">
@@ -45,19 +54,29 @@ const CreateAd = () => {
             <input
               type="text"
               placeholder="e.g. MTZ Tractor 90hp"
-              className="bg-[#223322] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-white placeholder-gray-400 transition"
+              {...register("name", { required: "Name is required" })}
+              className="bg-[#F0FDF4] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-black placeholder-gray-600 transition"
             />
+            {errors.name && (
+              <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
+            )}
           </div>
 
-          {/* File */}
+          {/* Image Upload */}
           <div>
             <label className="block mb-2 text-sm font-semibold text-gray-200">
               Upload Image
             </label>
             <input
               type="file"
-              className="bg-[#223322] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-white file:text-white file:bg-green-700 file:border-none transition"
+              {...register("file", {
+                required: "Image file is required",
+              })}
+              className="bg-[#F0FDF4] border border-gray-600 file:bg-green-700 file:text-white file:border-none file:px-4 file:py-2 file:rounded-lg px-5 py-3 w-full rounded-xl text-black transition"
             />
+            {errors.file && (
+              <p className="text-red-400 text-sm mt-1">{errors.file.message}</p>
+            )}
           </div>
 
           {/* Category */}
@@ -65,7 +84,10 @@ const CreateAd = () => {
             <label className="block mb-2 text-sm font-semibold text-gray-200">
               Category
             </label>
-            <select className="bg-[#223322] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-white transition">
+            <select
+              {...register("category", { required: "Category is required" })}
+              className="bg-[#F0FDF4] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-black transition"
+            >
               <option value="">Select a category</option>
               <option value="caterpillar">Caterpillar</option>
               <option value="tractor">Tractor</option>
@@ -73,6 +95,11 @@ const CreateAd = () => {
               <option value="leveller">Land Leveller</option>
               <option value="harvester">Harvester</option>
             </select>
+            {errors.category && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.category.message}
+              </p>
+            )}
           </div>
 
           {/* Price */}
@@ -83,8 +110,14 @@ const CreateAd = () => {
             <input
               type="number"
               placeholder="₵0.00"
-              className="bg-[#223322] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-white placeholder-gray-400 transition"
+              {...register("price", { required: "Price is required" })}
+              className="bg-[#F0FDF4] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-black placeholder-gray-600 transition"
             />
+            {errors.price && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.price.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -96,17 +129,28 @@ const CreateAd = () => {
           <textarea
             rows="5"
             placeholder="Write a short description..."
-            className="bg-[#223322] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-white placeholder-gray-400 resize-none transition"
+            {...register("description", {
+              required: "Description is required",
+            })}
+            className="bg-[#F0FDF4] border border-gray-600 focus:border-green-500 focus:ring-green-500 px-5 py-3 w-full rounded-xl text-black placeholder-gray-600 resize-none transition"
           ></textarea>
+          {errors.description && (
+            <p className="text-red-400 text-sm mt-1">
+              {errors.description.message}
+            </p>
+          )}
         </div>
 
-        {/* Submit */}
+        {/* Submit Button */}
         <div className="flex justify-end">
           <button
             type="submit"
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 text-sm font-semibold rounded-xl transition duration-300"
+            disabled={isSubmitting}
+            className={`${
+              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+            } bg-green-600 hover:bg-green-700 text-white px-6 py-3 text-sm font-semibold rounded-xl transition duration-300`}
           >
-            Post Ad
+            {isSubmitting ? "Posting..." : "Post Ad"}
           </button>
         </div>
       </form>

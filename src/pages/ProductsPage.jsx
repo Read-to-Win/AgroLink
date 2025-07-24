@@ -16,6 +16,10 @@ const ProductsPage = () => {
 
   const fetchProducts = async () => {
     try {
+      const res = await axios.get(
+        "https://agriconnect-api-aa28.onrender.com/createProduct/getAllByUser"
+      );
+      setProducts(res.data.item || []);
       const token = localStorage.getItem("token"); // Use if endpoint requires authentication
       const res = await axios.get(
         "https://agriconnect-api-aa28.onrender.com/createProduct/getAllByUser",
@@ -40,7 +44,9 @@ const ProductsPage = () => {
       const token = localStorage.getItem("token");
       const res = await axios.get(
         `https://agriconnect-api-aa28.onrender.com/createProductsearchItemByUser?search=${encodeURIComponent(
+          
           search
+        
         )}`,
         {
           headers: {
@@ -48,6 +54,7 @@ const ProductsPage = () => {
           },
         }
       );
+      setProducts(res.data.item || []);
       setProducts(res.data.item || []); // ✅ Correct key here too
     } catch (error) {
       console.error("Error searching products:", error);
@@ -90,7 +97,9 @@ const ProductsPage = () => {
         </div>
 
         {loading ? (
-          <div className="text-center text-lg font-medium">Loading products...</div>
+          <div className="text-center text-lg font-medium">
+            Loading products...
+          </div>
         ) : products.length === 0 ? (
           <div className="text-center text-red-500">No products found.</div>
         ) : (
@@ -103,10 +112,12 @@ const ProductsPage = () => {
                 <img
                   src={item.image?.url || "https://via.placeholder.com/300"}
                   alt={item.name}
+                  alt={item.name}
                   className="w-full h-64 object-cover"
                 />
                 <div className="p-4 flex flex-col justify-between h-52">
                   <h3 className="text-lg font-semibold truncate mb-1 text-green-950">
+                    {item.name}
                     {item.name}
                   </h3>
                   <p className="text-green-700 font-bold text-xl mb-1">
@@ -137,6 +148,12 @@ const ProductsPage = () => {
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
             <h2 className="text-xl font-bold text-green-950 mb-3">Please Sign In or Join</h2>
+            <p className="text-gray-600 mb-6">
+              You need to sign in or create an account to rent equipment.
+            </p>
+            <h2 className="text-xl font-bold text-green-950 mb-3">
+              Please Sign In or Join
+            </h2>
             <p className="text-gray-600 mb-6">
               You need to sign in or create an account to rent equipment.
             </p>

@@ -11,7 +11,9 @@ const ProductDetailsPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`https://agriconnect-api-aa28.onrender.com/createProduct/getOne/${id}`);
+        const res = await axios.get(
+          `https://agriconnect-api-aa28.onrender.com/createProduct/getOne/${id}`
+        );
         setProduct(res.data.item);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -52,24 +54,24 @@ const ProductDetailsPage = () => {
       <div className="max-w-5xl mx-auto pt-32 px-6 pb-16 grid md:grid-cols-2 gap-12">
         <img
           src={product.image?.url || "https://via.placeholder.com/500"}
-          alt={product.title}
+          alt={product.name}
           className="w-full h-96 object-cover rounded-xl shadow-lg"
         />
 
         <div className="space-y-6">
-          <h1 className="text-3xl font-bold text-green-950">{product.title}</h1>
+          <h1 className="text-3xl font-bold text-green-950">{product.name}</h1>
           <p className="text-xl text-green-700 font-semibold">
             GH₵ {product.price}
           </p>
 
           <p className="text-gray-600 text-sm">
-            <span className="font-semibold text-gray-700">Owner:</span>{" "}
-            {product.owner?.name || "Unknown"}
+            <span className="font-semibold text-gray-700">Owner ID:</span>{" "}
+            {product.owner || "Unknown"}
           </p>
 
-          {product.description && (
-            <p className="text-gray-700">{product.description}</p>
-          )}
+          <p className="text-gray-700">
+            {product.description || "No description provided."}
+          </p>
 
           <button className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-md mt-4">
             Hire Equipment
