@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function BookingModal({ ad, isOpen, onClose }) {
+export default function BookingModal({ product, isOpen, onClose }) {
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -12,7 +12,7 @@ export default function BookingModal({ ad, isOpen, onClose }) {
     setError("");
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         setError("User not authenticated.");
         setLoading(false);
@@ -20,8 +20,8 @@ export default function BookingModal({ ad, isOpen, onClose }) {
       }
 
       await axios.post(
-        "https://agriconnect-api-aa28.onrender.com/bookings", // Update to actual endpoint
-        { adId: ad._id, date },
+        "https://agriconnect-api-aa28.onrender.com/bookEquip/bookEquipment",
+        { equipId: product._id, date },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -42,17 +42,17 @@ export default function BookingModal({ ad, isOpen, onClose }) {
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !product) return null;
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-60 z-50 px-4">
-      <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative animate-fadeIn">
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-40 z-50 px-4">
+      <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full animate-fadeIn">
         <h2 className="text-xl font-semibold mb-4 text-green-800">
           Book Equipment
         </h2>
 
         <p className="mb-4 text-gray-800">
-          Booking for: <strong>{ad.name}</strong>
+          Booking for: <strong>{product.name}</strong>
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">

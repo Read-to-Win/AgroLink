@@ -7,7 +7,6 @@ const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,12 +14,9 @@ const ProductsPage = () => {
   }, []);
 
   const fetchProducts = async () => {
+    setLoading(true);
     try {
-      const res = await axios.get(
-        "https://agriconnect-api-aa28.onrender.com/createProduct/getAllByUser"
-      );
-      setProducts(res.data.item || []);
-      const token = localStorage.getItem("token"); // Use if endpoint requires authentication
+      const token = localStorage.getItem("token");
       const res = await axios.get(
         "https://agriconnect-api-aa28.onrender.com/createProduct/getAllByUser",
         {
@@ -29,7 +25,7 @@ const ProductsPage = () => {
           },
         }
       );
-      setProducts(res.data.item || []); // ✅ Correct key
+      setProducts(res.data.item || []);
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
@@ -39,15 +35,12 @@ const ProductsPage = () => {
 
   const handleSearch = async () => {
     if (!search.trim()) return fetchProducts();
+
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `https://agriconnect-api-aa28.onrender.com/createProductsearchItemByUser?search=${encodeURIComponent(
-          
-          search
-        
-        )}`,
+        `https://agriconnect-api-aa28.onrender.com/createProduct/searchItemByUser?search=${encodeURIComponent(search)}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,7 +48,6 @@ const ProductsPage = () => {
         }
       );
       setProducts(res.data.item || []);
-      setProducts(res.data.item || []); // ✅ Correct key here too
     } catch (error) {
       console.error("Error searching products:", error);
     } finally {
@@ -63,12 +55,8 @@ const ProductsPage = () => {
     }
   };
 
-  const handlePopup = () => {
-    setShowPopup(true);
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
+  const goToDetails = (productId) => {
+    navigate(`/product/${productId}`);
   };
 
   return (
@@ -80,6 +68,7 @@ const ProductsPage = () => {
           Hire an Equipment
         </h1>
 
+        {/* Search Input */}
         <div className="max-w-md mx-auto mb-10 flex gap-2">
           <input
             type="text"
@@ -96,6 +85,7 @@ const ProductsPage = () => {
           </button>
         </div>
 
+        {/* Products Grid */}
         {loading ? (
           <div className="text-center text-lg font-medium">
             Loading products...
@@ -112,12 +102,10 @@ const ProductsPage = () => {
                 <img
                   src={item.image?.url || "https://via.placeholder.com/300"}
                   alt={item.name}
-                  alt={item.name}
                   className="w-full h-64 object-cover"
                 />
                 <div className="p-4 flex flex-col justify-between h-52">
                   <h3 className="text-lg font-semibold truncate mb-1 text-green-950">
-                    {item.name}
                     {item.name}
                   </h3>
                   <p className="text-green-700 font-bold text-xl mb-1">
@@ -131,7 +119,7 @@ const ProductsPage = () => {
                   </p>
                   <div className="mt-auto">
                     <button
-                      onClick={handlePopup}
+                      onClick={() => goToDetails(item._id)}
                       className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md text-sm w-full transition"
                     >
                       View Details
@@ -144,43 +132,7 @@ const ProductsPage = () => {
         )}
       </div>
 
-      {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-            <h2 className="text-xl font-bold text-green-950 mb-3">Please Sign In or Join</h2>
-            <p className="text-gray-600 mb-6">
-              You need to sign in or create an account to rent equipment.
-            </p>
-            <h2 className="text-xl font-bold text-green-950 mb-3">
-              Please Sign In or Join
-            </h2>
-            <p className="text-gray-600 mb-6">
-              You need to sign in or create an account to rent equipment.
-            </p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={() => navigate("/sign-in")}
-                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => navigate("/join")}
-                className="border border-green-600 text-green-700 px-4 py-2 rounded-md hover:bg-green-50"
-              >
-                Join
-              </button>
-            </div>
-            <button
-              onClick={closePopup}
-              className="mt-4 text-sm text-gray-500 hover:underline"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-
+      {/* Footer */}
       <footer className="bg-green-950 text-white py-6 text-center text-sm">
         &copy; {new Date().getFullYear()} AgriTech. All rights reserved.
       </footer>

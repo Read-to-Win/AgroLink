@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 
-const Navbar = () => {
+const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
   const isProductsPage = location.pathname === "/products";
-  const [isOpen, setIsOpen] = useState();
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -37,20 +37,6 @@ const Navbar = () => {
       </Link>
 
       <ul
-        className={`flex items-center gap-8 md:gap-10 font-normal text-white text-base md:text-lg drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)] ${
-          scrolled
-            ? "text-green-800 hover:text-green-600"
-            : "text-white hover:text-green-300"
-        }`}
-      >
-        <li
-          className={`hover:text-green-300 transition duration-200 ${
-            scrolled
-              ? "text-green-800 hover:text-green-600"
-              : "text-white hover:text-green-300"
-          }`}
-        >
-      <ul
         className={`flex items-center gap-8 md:gap-10 font-normal ${getTextColor(
           "text-base md:text-lg drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]"
         )}`}
@@ -59,37 +45,25 @@ const Navbar = () => {
           <Link to="/products">Hire Tools</Link>
         </li>
 
-        <li
-          className={`cursor-pointer hover:text-green-300 transition duration-200 ${
-            scrolled
-              ? "text-green-800 hover:text-green-600"
-              : "text-white hover:text-green-300"
-          }`}
-        >
-          <Link to="/admin"> Rent Out</Link>
+        <li className={`transition duration-200 ${getTextColor()}`}>
+          <Link to="/admin">Rent Out</Link>
         </li>
       </ul>
 
       <div className="flex items-center gap-4">
         <Link
           to="/log-in"
-          className={`transition duration-200 border border-white/50 px-4 py-2 rounded-full font-semibold text-sm md:text-base ${
-            scrolled
-              ? "text-green-800 hover:text-green-600"
-              : "text-white hover:text-green-300"
-          }`}
           className={`transition duration-200 border border-white/50 px-4 py-2 rounded-full text-sm md:text-base ${getTextColor()}`}
         >
           Log in
         </Link>
 
-        {/* Sign Up triggers modal instead of navigation */}
-        <button className="bg-gray-100/90 text-green-950  cursor-pointer font-semibold text-sm md:text-base px-5 py-2 rounded-full hover:bg-white transition duration-300">
-          <Link to="/join"> Sign up</Link>
+        <button className="bg-gray-100/90 text-green-950 cursor-pointer font-semibold text-sm md:text-base px-5 py-2 rounded-full hover:bg-white transition duration-300">
+          <Link to="/join">Sign up</Link>
         </button>
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default NavBar;
