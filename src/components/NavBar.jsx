@@ -2,14 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
-const Navbar = () => {
+const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const isProductsPage = location.pathname === "/products";
-
+  const [isOpen, setIsOpen] = useState();
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -17,26 +12,6 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token, "login token");
-    setIsLoggedIn(!!token);
-  }, [location]);
-
-  const getTextColor = (base = "") => {
-    return `${
-      isProductsPage || scrolled
-        ? "text-green-800 hover:text-green-600"
-        : "text-white hover:text-green-300"
-    } ${base}`;
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    setIsLoggedIn(false);
-    navigate("/log-in");
-  };
 
   return (
     <nav
@@ -59,38 +34,37 @@ const Navbar = () => {
           <Link to="/products">Hire Tools</Link>
         </li>
 
-        {isLoggedIn ? (
-          <li
-            onClick={handleLogout}
-            className={`cursor-pointer transition duration-200 ${getTextColor()}`}
-          >
-            Log out
-          </li>
-        ) : (
-          <>
-            <li className={`transition duration-200 ${getTextColor()}`}>
-              <Link to="/admin">Rent Out</Link>
-            </li>
-          </>
-        )}
+      
+        <li
+          className={`cursor-pointer hover:text-green-300 transition duration-200 ${
+            scrolled
+              ? "text-green-800 hover:text-green-600"
+              : "text-white hover:text-green-300"
+          }`}
+        >
+          <Link to="/admin"> Rent Out</Link>
+        </li>
       </ul>
 
-      {!isLoggedIn && (
-        <div className="flex items-center gap-4">
-          <Link
-            to="/log-in"
-            className={`transition duration-200 border border-white/50 px-4 py-2 rounded-full text-sm md:text-base ${getTextColor()}`}
-          >
-            Log in
-          </Link>
+      <div className="flex items-center gap-4">
+        <Link
+          to="/log-in"
+          className={`transition duration-200 border border-white/50 px-4 py-2 rounded-full font-semibold text-sm md:text-base ${
+            scrolled
+              ? "text-green-800 hover:text-green-600"
+              : "text-white hover:text-green-300"
+          }`}
+        >
+          Log in
+        </Link>
 
-          <button className="bg-gray-100/90 text-green-950 cursor-pointer font-semibold text-sm md:text-base px-5 py-2 rounded-full hover:bg-white transition duration-300">
-            <Link to="/join">Sign up</Link>
-          </button>
-        </div>
-      )}
+        {/* Sign Up triggers modal instead of navigation */}
+        <button className="bg-gray-100/90 text-green-950  cursor-pointer font-semibold text-sm md:text-base px-5 py-2 rounded-full hover:bg-white transition duration-300">
+          <Link to="/join"> Sign up</Link>
+        </button>
+      </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default NavBar;

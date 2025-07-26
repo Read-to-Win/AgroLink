@@ -11,9 +11,10 @@ import AdminSignUp from "./pages/AdminSignUp";
 import Products from "./pages/Products";
 import MyMessages from "./pages/MyMessages";
 import LogIn from "./pages/LogIn";
-import Edit from "./pages/Edit";
 import CreateAd from "./pages/CreateAd";
 import Notifications from "./pages/Notifications";
+import Edit from "./pages/Edit";
+import BookingModal from "./components/BookingModal";
 
 function App() {
   const router = createBrowserRouter([
@@ -79,6 +80,10 @@ function App() {
     {
       path: "/edit",
       element: <Edit />,
+    },
+    {
+      path: "/book-machine",
+      element: <BookingModal/>,
     },
   ]);
   return <RouterProvider router={router} />;
