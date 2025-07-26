@@ -11,7 +11,7 @@ const Dashboard = () => {
     <div className="w-full min-h-screen bg-[#F0FDF4] text-white">
       {/* Navbar */}
       <nav className="w-full bg-[#214538] px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-md">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white text-center sm:text-left">
           Admin Dashboard
         </h1>
         <div className="relative w-full sm:w-80 max-w-full">
@@ -25,7 +25,7 @@ const Dashboard = () => {
       </nav>
 
       {/* Dashboard Content */}
-      <div className="px-4 sm:px-6 lg:px-10 py-10 space-y-10">
+      <div className="px-4 sm:px-6 lg:px-10 py-8 space-y-10">
         {/* Welcome Section */}
         <div>
           <h2 className="text-2xl sm:text-3xl font-bold text-[#1a2a1a] mb-1">
@@ -60,7 +60,9 @@ const Dashboard = () => {
           <h2 className="text-xl sm:text-2xl font-semibold mb-4">
             Recent Posts
           </h2>
-          <Table />
+          <div className="min-w-[600px]">
+            <Table />
+          </div>
         </div>
       </div>
     </div>
