@@ -4,7 +4,15 @@ import logo from "../assets/logo.png";
 
 const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isProductsPage, setIsProductsPage] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsProductsPage(location?.pathname === "/products");
+  }, [location]);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -12,6 +20,26 @@ const NavBar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    console.log(token, "login token");
+    setIsLoggedIn(!!token);
+  }, [location]);
+
+  const getTextColor = (base = "") => {
+    return `${
+      isProductsPage || scrolled
+        ? "text-green-800 hover:text-green-600"
+        : "text-white hover:text-green-300"
+    } ${base}`;
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    setIsLoggedIn(false);
+    navigate("/log-in");
+  };
 
   return (
     <nav
@@ -30,39 +58,41 @@ const NavBar = () => {
           "text-base md:text-lg drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]"
         )}`}
       >
+        {/* Always show Hire Tools */}
         <li className={`transition duration-200 ${getTextColor()}`}>
           <Link to="/products">Hire Tools</Link>
         </li>
 
-      
-        <li
-          className={`cursor-pointer hover:text-green-300 transition duration-200 ${
-            scrolled
-              ? "text-green-800 hover:text-green-600"
-              : "text-white hover:text-green-300"
-          }`}
-        >
-          <Link to="/admin"> Rent Out</Link>
-        </li>
+        {/* Show Logout only when logged in */}
+        {isLoggedIn && (
+          <li
+            onClick={handleLogout}
+            className={`cursor-pointer transition duration-200 ${getTextColor()}`}
+          >
+            Logout
+          </li>
+        )}
       </ul>
 
-      <div className="flex items-center gap-4">
-        <Link
-          to="/log-in"
-          className={`transition duration-200 border border-white/50 px-4 py-2 rounded-full font-semibold text-sm md:text-base ${
-            scrolled
-              ? "text-green-800 hover:text-green-600"
-              : "text-white hover:text-green-300"
-          }`}
-        >
-          Log in
-        </Link>
+      {/* Show Log in and Sign up only when NOT logged in */}
+      {!isLoggedIn && (
+        <div className="flex items-center gap-4">
+          <Link
+            to="/log-in"
+            className={`transition duration-200 border border-white/50 px-4 py-2 rounded-full font-semibold text-sm md:text-base ${
+              scrolled
+                ? "text-green-800 hover:text-green-600"
+                : "text-white hover:text-green-300"
+            }`}
+          >
+            Log in
+          </Link>
 
-        {/* Sign Up triggers modal instead of navigation */}
-        <button className="bg-gray-100/90 text-green-950  cursor-pointer font-semibold text-sm md:text-base px-5 py-2 rounded-full hover:bg-white transition duration-300">
-          <Link to="/join"> Sign up</Link>
-        </button>
-      </div>
+          <button className="bg-gray-100/90 text-green-950 cursor-pointer font-semibold text-sm md:text-base px-5 py-2 rounded-full hover:bg-white transition duration-300">
+            <Link to="/join">Sign up</Link>
+          </button>
+        </div>
+      )}
     </nav>
   );
 };
